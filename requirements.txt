@@ -1,6 +1,7 @@
 Pillow
 numpy==1.24.2
 opencv-python
+opencv-python-headless
 setuptools>=58.0.0
 wheel
 scikit-learn
