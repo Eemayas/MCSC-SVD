@@ -44,8 +44,8 @@ This repository provides a complete solution for embedding and extracting waterm
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/your-repo-name.git
-cd your-repo-name
+git clone https://github.com/Eemayas/Watermark-Embedding-and-Extraction-Using-SVD.git
+cd Watermark-Embedding-and-Extraction-Using-SVD
 ```
 
 ### Install Dependencies
@@ -96,7 +96,7 @@ tqdm
 1. **Open the Notebook**:
 
    ```bash
-   jupyter notebook final-rgb.ipynb
+   jupyter notebook Final-rgb.ipynb
    ```
 
 2. **Run the Cells**: Execute each cell to see the detailed implementation and results.
@@ -122,7 +122,8 @@ tqdm
 ## File Descriptions
 
 - `watermark_app.py`: Streamlit app for watermark embedding and extraction.
-- `final-rgb.ipynb`: Jupyter Notebook containing the watermarking algorithms and analysis.
+- `Final-rgb.ipynb`: Jupyter Notebook containing the watermarking algorithms and analysis for RGB images.
+- `Final-grayscale v2.ipynb`: Jupyter Notebook containing the watermarking algorithms and analysis for grayscale images.
 - `requirements.txt`: List of Python dependencies required for the project.
 
 ## Contributing
@@ -150,7 +151,6 @@ For any questions or further information, feel free to reach out:
 - **Email**: prashantmanandhar2002@gmail.com
 - **GitHub**: [Eemayas](https://github.com/Eemayas)
 - **Website**:[https://www.manandharprashant.com.np/](https://www.manandharprashant.com.np/)
-  Here's a professional-looking README file for your GitHub repository. This README provides an overview of the project, installation instructions, usage details, and contribution guidelines. Adjust the details as needed to match your project specifics.
 
 ## Acknowledgements
 
