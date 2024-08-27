@@ -13,6 +13,7 @@ This project demonstrates the technique of embedding a watermark into a high-res
 - [File Descriptions](#file-descriptions)
 - [Contributing](#contributing)
 - [Features](#features)
+- [Website](#website)
 - [Contact Information](#contact-information)
 - [License](#license)
 
@@ -142,6 +143,10 @@ Contributions are welcome! Please follow these steps to contribute:
 - **Singular Value Decomposition (SVD)**: Embeds and extracts watermarks using SVD, maintaining image integrity.
 - **Customizable Alpha Parameter**: Adjust the `alpha` parameter to control the intensity of the watermark.
 - **Grayscale Conversion**: Converts images to grayscale for simplicity and reduced computational load.
+
+## Website
+
+Check out the live demo of the application here: [https://watermarking-image-svd.streamlit.app/](https://watermarking-image-svd.streamlit.app/).
 
 ## Contact Information
 
