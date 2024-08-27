@@ -4,11 +4,25 @@ import numpy as np
 import cv2
 import time
 from io import BytesIO
+
+# Set up the Streamlit page layout
 st.set_page_config(layout="wide")
+
 # Function to apply SVD and modify singular values
 
 
 def embed_watermark(hr_channel, wm_channel, alpha=0.6):
+    """
+    Embeds a watermark into the host image channel using SVD.
+
+    Args:
+        hr_channel (numpy.ndarray): The host image channel.
+        wm_channel (numpy.ndarray): The watermark image channel.
+        alpha (float): Scaling factor for watermark embedding.
+
+    Returns:
+        numpy.ndarray: The host image channel with embedded watermark.
+    """
     U_hr, sigma_hr, V_hr = np.linalg.svd(hr_channel, full_matrices=False)
     U_wm, sigma_wm, V_wm = np.linalg.svd(wm_channel, full_matrices=False)
     sigma_hr_mod = sigma_hr + alpha * sigma_wm
@@ -19,18 +33,28 @@ def embed_watermark(hr_channel, wm_channel, alpha=0.6):
 
 
 def extract_watermark(hr_mod_channel, hr_channel, wr_channel, alpha=0.6):
+    """
+    Extracts a watermark from a watermarked image channel using SVD.
+
+    Args:
+        hr_mod_channel (numpy.ndarray): The watermarked image channel.
+        hr_channel (numpy.ndarray): The original host image channel.
+        wr_channel (numpy.ndarray): The original watermark image channel.
+        alpha (float): Scaling factor used during embedding.
+
+    Returns:
+        numpy.ndarray: The extracted watermark channel.
+    """
     U_hr_mod, sigma_hr_mod, V_hr_mod = np.linalg.svd(
         hr_mod_channel, full_matrices=False)
     U_hr, sigma_hr, V_hr = np.linalg.svd(hr_channel, full_matrices=False)
     U_wm, sigma_wm, V_wm = np.linalg.svd(wr_channel, full_matrices=False)
-
     sigma_wm_mod = (sigma_hr_mod - sigma_hr) / alpha
     wm_channel_mod = np.dot(U_wm, np.dot(np.diag(sigma_wm_mod), V_wm))
-
     return wm_channel_mod
 
 
-# Streamlit app
+# Streamlit app title
 st.title("Watermark Embedding and Extraction")
 
 # Toggle for Embedding or Extraction
@@ -135,7 +159,6 @@ if operation == "Embedding":
 
         # Create columns for center alignment
         col1, col2, col3 = st.columns([1, 2, 1])
-
         with col2:
             st.download_button(
                 label="Download Watermarked Image",
@@ -145,7 +168,7 @@ if operation == "Embedding":
             )
 
 elif operation == "Extraction":
-    # User inputs for host and watermark images
+    # User inputs for host, watermark, and watermarked images
     col1, col2, col3 = st.columns(3)
     with col1:
         host_image_file = st.file_uploader(
@@ -165,8 +188,8 @@ elif operation == "Extraction":
         watermarked_image_file = st.file_uploader(
             "Upload the Watermarked Image", type=["jpg", "png", "jpeg"])
         if watermarked_image_file:
-            st.image(watermarked_image_file, caption="Watermarked Image",
-                     use_column_width=True)
+            st.image(watermarked_image_file,
+                     caption="Watermarked Image", use_column_width=True)
 
     if host_image_file and watermark_image_file and watermarked_image_file:
         progress = st.progress(0)
@@ -180,7 +203,7 @@ elif operation == "Extraction":
         progress.progress(2)
         time.sleep(0.5)
 
-        # Resize watermark image to the size of the host image
+        # Resize watermark and watermarked images to the size of the host image
         status_text.text("Resizing images...")
         wm_image_resized = wm_image.resize(hr_image.size)
         watermarked_image_resized = watermarked_image.resize(hr_image.size)
@@ -204,9 +227,9 @@ elif operation == "Extraction":
         wm_r = np.array(wm_r)
         wm_g = np.array(wm_g)
         wm_b = np.array(wm_b)
-        hr_r_mod = np.array(wm_r)
-        hr_g_mod = np.array(wm_g)
-        hr_b_mod = np.array(wm_b)
+        hr_r_mod = np.array(hr_r_mod)
+        hr_g_mod = np.array(hr_g_mod)
+        hr_b_mod = np.array(hr_b_mod)
         progress.progress(15)
         time.sleep(0.5)
 
@@ -252,12 +275,15 @@ elif operation == "Extraction":
 
         # Provide download button for extracted watermark
         buffer = BytesIO()
-        watermarked_image.save(buffer, format="PNG")
+        extracted_watermark.save(buffer, format="PNG")
         buffer.seek(0)
 
         # Create columns for center alignment
         col1, col2, col3 = st.columns([1, 2, 1])
-
         with col2:
-            st.download_button(label="Download Extracted Watermark", data=buffer,
-                               file_name="extracted_watermark.png", mime="image/png")
+            st.download_button(
+                label="Download Extracted Watermark",
+                data=buffer,
+                file_name="extracted_watermark.png",
+                mime="image/png"
+            )
